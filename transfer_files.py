@@ -5,7 +5,12 @@ import paramiko
 from paramiko.ssh_exception import NoValidConnectionsError, BadHostKeyException, AuthenticationException, SSHException
 from scp import SCPClient
 
-# ENVIAMOS LAS FOTOS AL SERVIDOR
+print("Empieza script")
+
+'''
+Establecemos la conexión con el servidor para
+trasferir los archivos.
+'''
 server = '192.168.1.164'
 port = 22
 user = 'peter'
@@ -21,13 +26,24 @@ def createSSHClient(server, port, user, password):
     except (NoValidConnectionsError, BadHostKeyException, AuthenticationException, SSHException, socket.error) as e:
         print("Hay un error")
         print(e)
-        exit
+        exit(1)
 
 
-ssh = createSSHClient(server, port, user, password)
-print("empieza traspaso")
-scp = SCPClient(ssh.get_transport())
+'''
+Iniciamos el proceso de transferencia, comprobando si el directorio imgs
+contiene algún archivo a transferir. 
+'''
+folder = os.listdir('./imgs')
+if len(folder) == 0:
+    print("Directory is empty")
+else:
+    print("Conectamos con el cliente")
+    ssh = createSSHClient(server, port, user, password)
+    scp = SCPClient(ssh.get_transport())
+    print("Empieza el traspaso")
+    folder = os.scandir('./imgs')
+    for file in folder:
+        print(file.name)
+        scp.put(file, './Pictures/')
 
-folder = os.scandir('./imgs')
-for file in folder:
-    scp.put(file, './Pictures/')
+print("Finaliza el script")

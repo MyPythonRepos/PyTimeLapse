@@ -20,21 +20,5 @@ camera.exposure_mode = 'off'
 # Finally, capture an image with a 6s exposure. Due
 # to mode switching on the still port, this will take
 # longer than 6 seconds
-camera.capture('./imgs/dark.jpg')
+camera.capture('./imgs/night.jpg')
 
-# ENVIAMOS LAS FOTOS AL SERVIDOR
-server = '192.168.1.164'
-port = 22
-user = 'peter'
-password = 'Tr0mp1c0n3s?'
-def createSSHClient(server, port, user, password):
-    client = paramiko.SSHClient()
-    client.load_system_host_keys()
-    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(server, port, user, password)
-    return client
-
-ssh = createSSHClient(server, port, user, password)
-scp = SCPClient(ssh.get_transport())
-
-scp.put('./imgs/dark.jpg', './Pictures/')
