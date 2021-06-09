@@ -1,3 +1,4 @@
+import secrets
 import os
 from sys import exit
 import socket
@@ -13,8 +14,8 @@ trasferir los archivos.
 '''
 server = '192.168.1.164'
 port = 22
-user = 'peter'
-password = 'Tr0mp1c0n3s?'
+user = secrets.user
+password = secrets.password
 def createSSHClient(server, port, user, password):
     client = paramiko.SSHClient()
     client.load_system_host_keys()
