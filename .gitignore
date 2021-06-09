@@ -1,5 +1,6 @@
 # Personalización del .gitignore 
 imgs/*
+secrets.py
 
 
 # Byte-compiled / optimized / DLL files
