@@ -1,7 +1,7 @@
 # Personalización del .gitignore 
 imgs/*
 secrets.py
-
+notas.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

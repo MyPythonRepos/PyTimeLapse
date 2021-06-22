@@ -1,13 +1,5 @@
 Imagen base: Linux raspberrypi 5.10.17-v7+ #1414 SMP Fri Apr 30 13:18:35 BST 2021 armv7l
 
-IP Estática:
-  - 192.168.1.158
-  - Modificado archivo /etc/dhcpcd.conf
-
-Usuarios:
-  - pi:1mpr0per10?
-  - root:1mpr0per10?
-
 Python:
   - Python 3.7.3
   - pip 18.1 from /usr/lib/python3/dist-packages/pip (python 3.7)
