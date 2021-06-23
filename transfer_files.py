@@ -1,8 +1,8 @@
 import secrets
 import os
-from sys import exit
 import socket
 import paramiko
+from sys import exit
 from paramiko.ssh_exception import NoValidConnectionsError, BadHostKeyException, AuthenticationException, SSHException
 from scp import SCPClient
 from configparser import ConfigParser
@@ -22,15 +22,11 @@ src_folder = hostinfo["source_folder"]
 
 # Establecemos la conexión con el servidor para la transferencia de archivos
 def createSSHClient():
-    server = server_ip
-    port = 22
-    user = secrets.user
-    password = secrets.password
     client = paramiko.SSHClient()
     client.load_system_host_keys()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        client.connect(server, port, user, password, timeout=10)
+        client.connect(server_ip, server_port, secrets.user, secrets.password, timeout=10)
         print("Conexión realizada")
         return client
     except (NoValidConnectionsError, BadHostKeyException, AuthenticationException, SSHException, socket.error) as e:
@@ -52,5 +48,6 @@ else:
     for file in folder:
         print(file.name)
         scp.put(file, dst_folder)
+        os.remove(file) 
 
 print("Finaliza el script")
