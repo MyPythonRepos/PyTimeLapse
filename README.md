@@ -24,8 +24,10 @@ Python:
   siguientes archivos:
 
   * secrets.py, con los siguientes valores
-    * user = "usuario_servidor"
-    * password = "password_servidor"
+
+    user = "usuario_servidor"
+
+    password = "password_servidor"
 
   * config.ini, con la siguiente estructura:
 
