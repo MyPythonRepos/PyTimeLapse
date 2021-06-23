@@ -28,13 +28,19 @@ Python:
     * password = "password_servidor"
 
   * config.ini, con la siguiente estructura:
+
     [SERVERCONFIG]
+
     host = "nombre_del_servidor"
+
     server_ip = ip_del_servidor
+
     port = puerto_ssh
+
     destination_folder = destino_de_las_imagenes
 
     [HOSTCONFIG]
+
     source_folder = ./imgs [ubicación por defecto de las imágenes tomadas]
 
 ## Links:
