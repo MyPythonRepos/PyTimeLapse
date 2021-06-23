@@ -23,13 +23,13 @@ Python:
   Una vez clonado el repositorio, es necesario crear en la carpeta raíz los
   siguientes archivos:
 
-  * secrets.py, con los siguientes valores
+  * **secrets.py**, con los siguientes valores
 
     user = "usuario_servidor"
 
     password = "password_servidor"
 
-  * config.ini, con la siguiente estructura:
+  * **config.ini**, con la siguiente estructura:
 
     [SERVERCONFIG]
 
