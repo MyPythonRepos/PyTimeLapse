@@ -20,7 +20,7 @@ dst_folder = serverinfo["destination_folder"]
 hostinfo = config_object["HOSTCONFIG"]
 src_folder = hostinfo["source_folder"]
 
-# Establecemos la conexión con el servidor para la transferencia de archivos
+# Establece conexión con el servidor para la transferencia de archivos
 def createSSHClient():
     client = paramiko.SSHClient()
     client.load_system_host_keys()
@@ -45,9 +45,10 @@ else:
     scp = SCPClient(ssh.get_transport())
     print("Empieza la transferencia de archivos")
     folder = os.scandir(src_folder)
-    for file in folder:
-        print(file.name)
-        scp.put(file, dst_folder)
-        os.remove(file) 
+    scp.put(src_folder, recursive=True, remote_path=dst_folder)
+   # for file in folder:
+   #     print("Fichero transferido: " + file.name)
+   #     scp.put(file, remote_path=dst_folder)
+   #     os.remove(file) 
 
 print("Finaliza el script")
