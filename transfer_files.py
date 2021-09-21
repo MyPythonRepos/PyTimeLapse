@@ -1,3 +1,4 @@
+import logging
 import os
 import paramiko
 import secrets
@@ -29,11 +30,11 @@ def createSSHClient(server_ip, server_port):
   client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
   try:
     client.connect(server_ip, server_port, secrets.user, secrets.password, timeout=10)
-    print("Conexión realizada")
+    logging.info("Conexión realizada con el servidor.")
     return client
   except (NoValidConnectionsError, BadHostKeyException, AuthenticationException, SSHException, socket.error) as e:
-    print("Hay un error")
-    print(e)
+    logging.error("No se ha podido conectar con el servidor.")
+    logging.error(e)
     exit(1)
 
 
@@ -41,23 +42,28 @@ def createSSHClient(server_ip, server_port):
 def transferir_archivos(server_host, server_ip, server_port, dst_folder, src_folder):
   folder = os.listdir(src_folder)
   if len(folder) == 0:
-    print("El directorio está vacío")
+    logging.warning("El directorio de imágenes está vacío")
   else:
-    print("Conectamos con el cliente")
     ssh = createSSHClient(server_ip, server_port)
     scp = SCPClient(ssh.get_transport())
-    print("Empieza la transferencia de archivos")
+    logging.info("Empieza la transferencia de imágenes.")
     scp.put(src_folder, recursive=True, remote_path=dst_folder)
+    logging.info("Transferidos " + str(len(os.listdir(src_folder))) + " archivos.")
     # Se vacía el directorio de las imagenes
     for file in os.listdir(src_folder):
       os.remove(src_folder + '/' + file)
+    logging.info("Directorio de imágenes vaciado correctamente.")
 
 def main():
-  print("Empieza script")
+  logging.basicConfig(filename='/var/log/transfer.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
+  logging.info("Iniciado script de transferencia de archivos.")
   server_host, server_ip, server_port, dst_folder, src_folder = leer_configuracion()
   transferir_archivos(server_host, server_ip, server_port, dst_folder, src_folder)
-  print("Finaliza el script")
+  logging.info("Finalizado el script de transferencia.")
 
 
 if __name__ == '__main__':
-  main()
+  try:
+    main()
+  except KeyboardInterrupt:
+    logging.error("Script interrumpido por teclado")
