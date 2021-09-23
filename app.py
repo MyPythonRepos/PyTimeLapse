@@ -1,5 +1,7 @@
+import logging
 import os
 import paramiko
+import sys
 import time
 from configparser import ConfigParser
 from datetime import datetime
@@ -12,7 +14,7 @@ def fecha_y_hora():
   return ahora.strftime("%y%m%d_%H%M%S")
 
 
-print(os.path.basename(__file__))
+#print(os.path.basename(__file__))
 
 
 # LEER FICHERO DE CONFIGURACION
@@ -39,11 +41,21 @@ def tomar_fotografias(src_folder):
     photo_name = fecha_y_hora() + '.jpg'
     camera.capture(src_folder + '/' + photo_name)
     camera.stop_preview()
-    print("Fotografía tomada: " + photo_name)
+    logging.info("Fotografía tomada: " + photo_name)
 
-if __name__ == '__main__':
-  print("Inicializamos el timelapse")
+
+def main():
+  logging.basicConfig(filename='/var/log/photo.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
+  logging.info("Inicializamos el timelapse")
   src_folder, log_folder = leer_configuracion()
   tomar_fotografias(src_folder)
-  print("Finaliza el timelapse")
+  logging.info("Finaliza el timelapse")
+
+
+if __name__ == '__main__':
+  try:
+    main()
+  except KeyboardInterrupt:
+    logging.error("KeyboardInterrupt - Timelapse interrumpido por teclado.")
+    sys.exit()
 
