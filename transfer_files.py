@@ -20,7 +20,12 @@ def leer_configuracion():
   dst_folder = serverinfo["destination_folder"]
   hostinfo = config_object["HOSTCONFIG"]
   src_folder = hostinfo["source_folder"]
-  return (server_host, server_ip, server_port, dst_folder, src_folder)
+  if not os.path.isdir(src_folder):
+    os.makedirs(src_folder)
+  log_folder = hostinfo["log_folder"]
+  if not os.path.isdir(log_folder):
+    os.makedirs(log_folder)
+  return (server_host, server_ip, server_port, dst_folder, src_folder, log_folder)
 
 
 # Establece conexión con el servidor para la transferencia de archivos
@@ -50,14 +55,19 @@ def transferir_archivos(server_host, server_ip, server_port, dst_folder, src_fol
     scp.put(src_folder, recursive=True, remote_path=dst_folder)
     logging.info("Transferidos " + str(len(os.listdir(src_folder))) + " archivos.")
     # Se vacía el directorio de las imagenes
+    imagenes = []
     for file in os.listdir(src_folder):
+      imagenes.append(file)
       os.remove(src_folder + '/' + file)
+    lista_imagenes = ";".join(map(str,imagenes))
+    logging.info("Eliminados los archivos: " + lista_imagenes)
     logging.info("Directorio de imágenes vaciado correctamente.")
 
+
 def main():
+  server_host, server_ip, server_port, dst_folder, src_folder = leer_configuracion()
   logging.basicConfig(filename='/var/log/transfer.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
   logging.info("Iniciado script de transferencia de archivos.")
-  server_host, server_ip, server_port, dst_folder, src_folder = leer_configuracion()
   transferir_archivos(server_host, server_ip, server_port, dst_folder, src_folder)
   logging.info("Finalizado el script de transferencia.")
 

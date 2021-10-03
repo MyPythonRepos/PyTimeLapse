@@ -45,9 +45,9 @@ def tomar_fotografias(src_folder):
 
 
 def main():
-  logging.basicConfig(filename='/var/log/photo.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
-  logging.info("Inicializamos el timelapse")
   src_folder, log_folder = leer_configuracion()
+  logging.basicConfig(filename=log_folder + 'photo.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
+  logging.info("Inicializamos el timelapse")
   tomar_fotografias(src_folder)
   logging.info("Finaliza el timelapse")
 
