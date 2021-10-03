@@ -65,8 +65,8 @@ def transferir_archivos(server_host, server_ip, server_port, dst_folder, src_fol
 
 
 def main():
-  server_host, server_ip, server_port, dst_folder, src_folder = leer_configuracion()
-  logging.basicConfig(filename='/var/log/transfer.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
+  server_host, server_ip, server_port, dst_folder, src_folder, log_folder = leer_configuracion()
+  logging.basicConfig(filename = log_folder + 'transfer.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s', datefmt='%d/%m/%Y %I:%H:%S%p' )
   logging.info("Iniciado script de transferencia de archivos.")
   transferir_archivos(server_host, server_ip, server_port, dst_folder, src_folder)
   logging.info("Finalizado el script de transferencia.")
