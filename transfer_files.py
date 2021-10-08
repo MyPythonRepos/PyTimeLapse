@@ -12,7 +12,7 @@ from sys import exit
 # Leer fichero de configuracion
 def leer_configuracion():
   config_object = ConfigParser()
-  config_object.read("config.ini")
+  config_object.read("/home/pi/Documents/PyTimeLapse/config.ini")
   serverinfo = config_object["SERVERCONFIG"]
   server_host = serverinfo["host"]
   server_ip = serverinfo["server_ip"]
@@ -20,6 +20,11 @@ def leer_configuracion():
   dst_folder = serverinfo["destination_folder"]
   hostinfo = config_object["HOSTCONFIG"]
   src_folder = hostinfo["source_folder"]
+  #server_host = "peterPC"
+  #server_ip = "192.168.1.156"
+  #server_port = 22
+  #dst_folder = "./Imágenes/timelapse" 
+  #src_folder = "/home/pi/Documents/PyTimeLapse/imgs"
   if not os.path.isdir(src_folder):
     os.makedirs(src_folder)
   log_folder = hostinfo["log_folder"]
